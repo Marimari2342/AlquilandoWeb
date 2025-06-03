@@ -22,7 +22,20 @@ else
         {
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="@(alojamiento.Imagenes.FirstOrDefault() ?? "imagenes/default-image.jpg")" class="card-img-top" />
+                    @inject IWebHostEnvironment env
+
+                    @{
+                        var primeraImagenValida = alojamiento.Imagenes
+                        .FirstOrDefault(img =>
+                        System.IO.File.Exists(Path.Combine(env.WebRootPath, "uploads", img)));
+
+                        var rutaImagen = primeraImagenValida != null
+                        ? $"/uploads/{primeraImagenValida}"
+                        : "imagenes/default-image.jpg";
+                    }
+
+                    <img src="@rutaImagen" class="card-img-top" />
+
                     <div class="card-body">
                         <h5 class="card-title">@alojamiento.Nombre</h5>
                         <p class="card-text">@alojamiento.Ciudad</p>

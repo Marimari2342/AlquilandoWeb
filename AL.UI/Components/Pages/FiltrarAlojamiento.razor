@@ -1,9 +1,11 @@
 ﻿@page "/FiltrarAlojamiento"
 @using AL.Aplicacion.Excepciones
 @using AL.Aplicacion.Entidades
+@using AL.Aplicacion.Enumerativos
 @rendermode InteractiveServer
 
 @inject FiltrarAlojamientoCasoDeUso FiltrarAlojamientoCasoDeUso
+@inject NavigationManager Navigation
 
 <h3>Filtrar por</h3>
 
@@ -12,13 +14,10 @@
         <label class="form-label">Tipo de filtro</label>
         <select class="form-select" @bind="filtroSeleccionado">
             <option disabled selected value="">Seleccionar...</option>
-            <option value="Pais">País</option>
-            <option value="Ciudad">Ciudad</option>
-            <option value="PrecioMinimo">Precio Mínimo</option>
-            <option value="PrecioMaximo">Precio Máximo</option>
-            <option value="CantidadDormitorios">Dormitorios</option>
-            <option value="Capacidad">Capacidad</option>
-            <option value="Estacionamiento">Estacionamiento</option>
+            @foreach (var filtro in todosLosFiltros.Where(f => !filtrosAplicados.ContainsKey(f.ToString())))
+            {
+                <option value="@filtro.ToString()">@nombresVisibles[filtro]</option>
+            }
         </select>
     </div>
 
@@ -49,7 +48,7 @@
         @foreach (var f in filtrosAplicados)
         {
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                @f.Key: @f.Value
+                @nombresVisibles[(TipoFiltro)Enum.Parse(typeof(TipoFiltro), f.Key)]: @f.Value
                 <button class="btn btn-sm btn-outline-danger" @onclick="@(() => RemoverFiltro(f.Key))">❌</button>
             </li>
         }
@@ -77,12 +76,7 @@
                 <p>@(a.Estacionamiento ? "Con estacionamiento" : "Sin estacionamiento")</p>
             </div>
         }
-
     </div>
-}
-else if (buscado && alojamientos?.Count == 0)
-{
-    <p class="text-muted mt-3">No se encontraron alojamientos con esos criterios.</p>
 }
 
 @code {
@@ -95,10 +89,23 @@ else if (buscado && alojamientos?.Count == 0)
     private string? ErrorMessage;
     private bool buscado = false;
 
+    private List<TipoFiltro> todosLosFiltros = Enum.GetValues<TipoFiltro>().ToList();
+
+    private Dictionary<TipoFiltro, string> nombresVisibles = new()
+    {
+        [TipoFiltro.Pais] = "País",
+        [TipoFiltro.Ciudad] = "Ciudad",
+        [TipoFiltro.PrecioMinimo] = "Precio Mínimo",
+        [TipoFiltro.PrecioMaximo] = "Precio Máximo",
+        [TipoFiltro.CantidadDormitorios] = "Dormitorios",
+        [TipoFiltro.Capacidad] = "Capacidad",
+        [TipoFiltro.Estacionamiento] = "Estacionamiento"
+    };
+
     private void AgregarFiltro()
     {
         if (string.IsNullOrEmpty(filtroSeleccionado))
-            return; // No agregar si no hay filtro seleccionado
+            return;
 
         if (filtroSeleccionado == "Estacionamiento")
         {
@@ -109,7 +116,6 @@ else if (buscado && alojamientos?.Count == 0)
             filtrosAplicados[filtroSeleccionado] = valorFiltro!;
         }
 
-        // Limpiar selección
         filtroSeleccionado = null;
         valorFiltro = null;
         valorBooleano = false;
@@ -123,8 +129,8 @@ else if (buscado && alojamientos?.Count == 0)
     private void AplicarFiltros()
     {
         ErrorMessage = null;
+        filtro = new Filtro();
 
-        filtro = new Filtro(); // Reset
         foreach (var f in filtrosAplicados)
         {
             switch (f.Key)
@@ -165,7 +171,6 @@ else if (buscado && alojamientos?.Count == 0)
 
         buscado = true;
     }
-    @inject NavigationManager Navigation
 
     private void IrADetalle(int id)
     {
