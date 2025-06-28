@@ -108,6 +108,14 @@ public class UsuarioRepositorio : IUsuarioRepositorio
         }
     }
 
+    public void Actualizar(Usuario u)
+    {
+        using (var db = new EntidadesContext())
+        {
+            db.Usuarios.Update(u);
+            db.SaveChanges();
+        }
+    }
 
 
 }

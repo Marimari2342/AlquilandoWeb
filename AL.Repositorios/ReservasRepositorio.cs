@@ -4,41 +4,50 @@ using AL.Aplicacion.Entidades;
 using AL.Aplicacion.Interfaces;
 namespace AL.Repositorios;
 
-public class ReservasRepositorio: IReservasRepositorio
+public class ReservasRepositorio : IReservasRepositorio
 {
-//Caso de uso reserva ALTA
-    public void Agregar(Reserva r){
-        
-        using(var db=new EntidadesContext()){  
+    //Caso de uso reserva ALTA
+    public void Agregar(Reserva r)
+    {
+
+        using (var db = new EntidadesContext())
+        {
             db.Add(r);
             db.SaveChanges();
         }
     }
 
     //Caso de uso reserva BAJA
-    public void Eliminar(Reserva r){
-        using(var db=new EntidadesContext()){  
+    public void Eliminar(Reserva r)
+    {
+        using (var db = new EntidadesContext())
+        {
             var reserva = db.Reservas.Where(re => re.Id == r.Id).SingleOrDefault();
-            if(reserva != null){
-                 db.Remove(reserva);
-                 db.SaveChanges();
-        }
+            if (reserva != null)
+            {
+                db.Remove(reserva);
+                db.SaveChanges();
+            }
         }
     }
 
     //Caso de uso Consulta por Id
-    public Reserva? ObtenerPorId(int id){
-        using(var db=new EntidadesContext()){  
+    public Reserva? ObtenerPorId(int id)
+    {
+        using (var db = new EntidadesContext())
+        {
             var reservas = db.Reservas.Where(r => r.Id == id).SingleOrDefault();
             return reservas;
         }
-    } 
-    
+    }
+
     //Caso de uso consulta TODOS
-    public List<Reserva> ObtenerTodos(){
-        using (var db=new EntidadesContext()){
+    public List<Reserva> ObtenerTodos()
+    {
+        using (var db = new EntidadesContext())
+        {
             List<Reserva> resultado = db.Reservas.ToList();
-            return resultado;  
+            return resultado;
         }
     }
     public List<Reserva> ObtenerReservasPorAlojamientoId(int alojamientoId)
@@ -65,4 +74,18 @@ public class ReservasRepositorio: IReservasRepositorio
             db.SaveChanges();
         }
     }
+
+    public void CancelarReservasFuturas(int usuarioId, DateTime fechaDesde)
+    {
+        using (var db = new EntidadesContext())
+        {
+            var futuras = db.Reservas
+                .Where(r => r.IdUsuario == usuarioId && r.FechaInicioEstadia > fechaDesde)
+                .ToList();
+
+            db.Reservas.RemoveRange(futuras);
+            db.SaveChanges();
+        }
+    }
+
 }
