@@ -15,6 +15,7 @@ public interface IAlojamientoRepositorio
     public List<Alojamiento> ListarAlojamientosConSusReservas();
     Task<Alojamiento?> ObtenerPorId(int id);
     public Boolean alojamientoDisponible(int id, DateTime fechaDesde, DateTime fechaHasta);
+    void Actualizar(Alojamiento alojamiento);
 
     public List<Alojamiento> ObtenerPorCiudad(string ciudad);
     public List<Alojamiento> ObtenerPorDisponibilidad(List<Alojamiento> a,DateTime fechaDesde, DateTime fechaHasta);

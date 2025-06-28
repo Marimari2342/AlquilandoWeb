@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.UI\\AL.UI.csproj": {}
+    "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\al.ui\\AL.UI.csproj": {}
   },
   "projects": {
     "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.Aplicacion\\AL.Aplicacion.csproj": {
@@ -130,14 +130,14 @@
         }
       }
     },
-    "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.UI\\AL.UI.csproj": {
+    "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\al.ui\\AL.UI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.UI\\AL.UI.csproj",
+        "projectUniqueName": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\al.ui\\AL.UI.csproj",
         "projectName": "AL.UI",
-        "projectPath": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.UI\\AL.UI.csproj",
+        "projectPath": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\al.ui\\AL.UI.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\AL.UI\\obj\\",
+        "outputPath": "C:\\Users\\maria\\Downloads\\AlquilandoWeb\\al.ui\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config"

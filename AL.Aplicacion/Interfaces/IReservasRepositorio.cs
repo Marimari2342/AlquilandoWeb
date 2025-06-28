@@ -14,5 +14,9 @@ public interface IReservasRepositorio
     List<Reserva> ObtenerReservasPorAlojamientoId(int alojamientoId);
     List<Reserva> ObtenerReservasPorUsuarioId(int usuarioId);
     void CancelarReservasFuturas(int usuarioId, DateTime fechaDesde);
+    bool TieneReservaEnCurso(int alojamientoId);
+    bool TieneReservasFuturas(int alojamientoId);
+    void CancelarReservasFuturasPorAlojamiento(int alojamientoId);
+
 
 }

@@ -87,5 +87,40 @@ public class ReservasRepositorio : IReservasRepositorio
             db.SaveChanges();
         }
     }
+    public bool TieneReservaEnCurso(int alojamientoId)
+    {
+        using (var db = new EntidadesContext())
+        {
+            var hoy = DateTime.Today;
+            return db.Reservas.Any(r =>
+                r.IdAlojamiento == alojamientoId &&
+                r.FechaInicioEstadia <= hoy &&
+                r.FechaFinEstadia >= hoy);
+        }
+    }
+    public bool TieneReservasFuturas(int alojamientoId)
+    {
+        using (var db = new EntidadesContext())
+        {
+            var hoy = DateTime.Today;
+            return db.Reservas.Any(r =>
+                r.IdAlojamiento == alojamientoId &&
+                r.FechaInicioEstadia > hoy);
+        }
+    }
+    public void CancelarReservasFuturasPorAlojamiento(int alojamientoId)
+    {
+        using (var db = new EntidadesContext())
+        {
+            var hoy = DateTime.Today;
+            var futuras = db.Reservas
+                .Where(r => r.IdAlojamiento == alojamientoId && r.FechaInicioEstadia > hoy)
+                .ToList();
+
+            db.Reservas.RemoveRange(futuras);
+            db.SaveChanges();
+        }
+    }
+
 
 }
